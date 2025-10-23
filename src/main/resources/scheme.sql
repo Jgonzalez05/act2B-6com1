@@ -12,17 +12,17 @@ DROP TABLE IF EXISTS persona;
 
 CREATE TABLE persona (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    person_id INTEGER UNIQUE,
-    first_name TEXT,
-    last_name TEXT
+    person_id INTEGER NOT NULL UNIQUE,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS teacher;
 
 CREATE TABLE teacher (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    person_id INTEGER UNIQUE,
-    degree TEXT,
-    correo TEXT,
+    person_id INTEGER NOT NULL UNIQUE,
+    degree TEXT NOT NULL,
+    correo TEXT NOT NULL,
     CONSTRAINT fk_person FOREIGN KEY person_id REFERENCES persona(person_id)
 );

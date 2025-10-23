@@ -3,8 +3,8 @@ package com.is1.proyecto.models;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
-@Table("persona")
-public class Person extends Model {
+@Table("teacher")
+public class Teacher extends Model {
 
     // ActiveJDBC mapea automáticamente las columnas de la tabla 'users'
     // (como 'id', 'name', 'password', etc.) a los atributos de esta clase.
@@ -14,6 +14,7 @@ public class Person extends Model {
     // Opcional: Puedes agregar métodos getters y setters si prefieres un acceso más tipado,
     // aunque los métodos genéricos de Model (getString(), set(), getInteger(), etc.) ya funcionan.
 
+    
     public Integer getDNI(){
         return getInteger("person_id");
     }
@@ -22,20 +23,20 @@ public class Person extends Model {
         set("person_id",dni);
     }
 
-    public String getFirstName() {
-        return getString("first_name");
+    public String getCorreo() {
+        return getString("correo"); 
     }
 
-    public void setFirstName(String name) {
-        set("first_name", name); 
+    public void setCorreo(String name) {
+        set("correo", name); 
     }
 
-    public String getLastName() {
-        return getString("last_name"); 
+    public String getDegree() {
+        return getString("degree"); 
     }
 
-    public void setLastName(String lastName) {
-        set("last_name", lastName); 
+    public void setDegree(String degree) {
+        set("degree", degree); 
     }
 
 }
