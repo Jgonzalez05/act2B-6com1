@@ -9,6 +9,7 @@ import org.mindrot.jbcrypt.BCrypt; // Utilidad para hashear y verificar contrase
 
 import com.fasterxml.jackson.databind.ObjectMapper; // Representa un modelo de datos y el nombre de la vista a renderizar.
 import com.is1.proyecto.config.DBConfigSingleton; // Motor de plantillas Mustache para Spark.
+import com.is1.proyecto.models.Teacher;
 import com.is1.proyecto.models.User; // Para crear mapas de datos (modelos para las plantillas).
 
 import spark.ModelAndView; // Interfaz Map, utilizada para Map.of() o HashMap.
@@ -299,5 +300,44 @@ public class App {
             return new ModelAndView(model, "teacher_form.mustache");
         }, new MustacheTemplateEngine());
         
+
+        
+       post("/register_teacher", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            String dni = req.queryParams("dni");
+            String nombre = req.queryParams("nombre");
+            String apellido = req.queryParams("apellido");
+            String mail = req.queryParams("mail");
+            String titulo = req.queryParams("titulo");
+
+         if (dni == null || nombre == null || apellido == null || mail == null || titulo == null ||
+        dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || mail.isEmpty() || titulo.isEmpty()) {
+        model.put("errorMessage", "Todos los campos son obligatorios.");
+        return new ModelAndView(model, "teacher_form.mustache");
+         }
+
+                 // Guardar en la BD
+              Teacher t = new Teacher();
+                 t.set("dni", dni);
+                 t.set("nombre", nombre);
+                 t.set("apellido", apellido);
+                 t.set("mail", mail);
+                 t.set("titulo", titulo);
+                 t.saveIt();
+
+    // Redirigir a la lista
+    res.redirect("/teachers");
+    return null;
+});
+
+
+            // GET: Listado de profesores
+            get("/teachers", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("teachers", Teacher.findAll()); // Trae todos los profesores de la BD
+            return new ModelAndView(model, "teacher_list.mustache");
+            }, new MustacheTemplateEngine());
+
     } // Fin del método main
 } // Fin de la clase App
