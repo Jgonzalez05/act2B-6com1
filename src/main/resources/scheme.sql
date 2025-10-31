@@ -11,18 +11,22 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS persona;
 
 CREATE TABLE persona (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    person_id INTEGER NOT NULL UNIQUE,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL
+    person_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dni INTEGER NOT NULL UNIQUE, -- DNI de la persona ingresada como usuario 
+    first_name TEXT NOT NULL,   -- Nombre de la persona ingresada como usuario
+    last_name TEXT NOT NULL     -- Apellido de la persona ingresada como usuario
+    CONSTRAINT  CHECK(dni < 1000000000 AND dni >= 0) ON DELETE CASCADE,
+    CONSTRAINT fk_id FOREIGN KEY person_id REFERENCES users(id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS teacher;
 
 CREATE TABLE teacher (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    person_id INTEGER NOT NULL UNIQUE,
-    degree TEXT NOT NULL,
-    correo TEXT NOT NULL,
-    CONSTRAINT fk_person FOREIGN KEY person_id REFERENCES persona(person_id)
+    teacher_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher_dni INTEGER NOT NULL UNIQUE,
+    degree TEXT NOT NULL,            -- Titulo universitario del profesor 
+    email TEXT NOT NULL UNIQUE,      -- Correo electrónico del profesor 
+    CONSTRAINT check_email CHECK(email LIKE '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'),  --chequea mail válido
+    CONSTRAINT fk_id FOREIGN KEY teacher_id REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_dni FOREIGN KEY teacher_dni REFERENCES persona(dni) ON DELETE CASCADE
 );

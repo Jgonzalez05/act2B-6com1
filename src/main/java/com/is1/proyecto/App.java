@@ -20,14 +20,14 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import spark.template.mustache.MustacheTemplateEngine;
 
-
 /**
  * Clase principal de la aplicación Spark.
  * Configura las rutas, filtros y el inicio del servidor web.
  */
 public class App {
 
-    // Instancia estática y final de ObjectMapper para la serialización/deserialización JSON.
+    // Instancia estática y final de ObjectMapper para la
+    // serialización/deserialización JSON.
     // Se inicializa una sola vez para ser reutilizada en toda la aplicación.
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -293,9 +293,10 @@ public class App {
             }
         });
 
+        get("/register_teacher", (req, res) -> {
+            HashMap<String, String> model = new HashMap<>(); 
+            return new ModelAndView(model, "teacher_form.mustache");
+        }, new MustacheTemplateEngine());
         
-
-
-
     } // Fin del método main
 } // Fin de la clase App

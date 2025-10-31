@@ -6,21 +6,12 @@ import org.javalite.activejdbc.annotations.Table;
 @Table("teacher")
 public class Teacher extends Model {
 
-    
-    public Integer getDNI(){
-        return getInteger("person_id");
+    public String getEmail() {
+        return getString("email"); 
     }
 
-    public void setDNI(Integer dni){
-        set("person_id",dni);
-    }
-
-    public String getCorreo() {
-        return getString("correo"); 
-    }
-
-    public void setCorreo(String name) {
-        set("correo", name); 
+    public void setEmail(String email) {
+        set("email", email); 
     }
 
     public String getDegree() {

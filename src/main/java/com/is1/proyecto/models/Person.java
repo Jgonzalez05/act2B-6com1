@@ -8,11 +8,11 @@ public class Person extends Model {
 
     
     public Integer getDNI(){
-        return getInteger("person_id");
+        return getInteger("dni");
     }
 
     public void setDNI(Integer dni){
-        set("person_id",dni);
+        set("dni",dni);
     }
 
     public String getFirstName() {
