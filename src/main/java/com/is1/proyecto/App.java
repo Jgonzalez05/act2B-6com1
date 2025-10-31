@@ -293,6 +293,7 @@ public class App {
             }
         });
 
+        //Api
         get("/register_teacher", (req, res) -> {
             HashMap<String, String> model = new HashMap<>(); 
             return new ModelAndView(model, "teacher_form.mustache");
