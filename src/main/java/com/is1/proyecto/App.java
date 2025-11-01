@@ -112,6 +112,7 @@ public class App {
                 return null; // Importante retornar null después de una redirección.
             }
 
+            
             // 2. Si el usuario está logueado, añade el nombre de usuario al modelo para la plantilla.
             model.put("username", currentUsername);
 
