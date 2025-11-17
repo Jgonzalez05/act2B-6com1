@@ -1,3 +1,10 @@
+-- DROP TABLE IF EXISTS member;
+-- DROP TABLE IF EXISTS persona;
+-- DROP TABLE IF EXISTS teacher;
+
+-- Enable foreign key enforcement for this connection
+PRAGMA foreign_keys = ON;
+
 -- Elimina la tabla 'users' si ya existe para asegurar un inicio limpio
 DROP TABLE IF EXISTS users;
 
@@ -8,25 +15,22 @@ CREATE TABLE users (
     password TEXT NOT NULL           -- Contraseña hasheada (TEXT es el tipo de cadena recomendado para SQLite)
 );
 
-DROP TABLE IF EXISTS persona;
+DROP TABLE IF EXISTS members;
 
-CREATE TABLE persona (
-    person_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dni INTEGER NOT NULL UNIQUE, -- DNI de la persona ingresada como usuario 
-    first_name TEXT NOT NULL,   -- Nombre de la persona ingresada como usuario
-    last_name TEXT NOT NULL     -- Apellido de la persona ingresada como usuario
-    CONSTRAINT  CHECK(dni < 1000000000 AND dni >= 0) ON DELETE CASCADE,
-    CONSTRAINT fk_id FOREIGN KEY person_id REFERENCES users(id) ON DELETE CASCADE
+CREATE TABLE members (
+    dni INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    CONSTRAINT check_members_dni CHECK(dni < 1000000000 AND dni >= 0)
 );
 
-DROP TABLE IF EXISTS teacher;
+DROP TABLE IF EXISTS teachers;
 
-CREATE TABLE teacher (
-    teacher_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    teacher_dni INTEGER NOT NULL UNIQUE,
+CREATE TABLE teachers (
+    dni INTEGER PRIMARY KEY,
     degree TEXT NOT NULL,            -- Titulo universitario del profesor 
     email TEXT NOT NULL UNIQUE,      -- Correo electrónico del profesor 
-    CONSTRAINT check_email CHECK(email LIKE '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'),  --chequea mail válido
-    CONSTRAINT fk_id FOREIGN KEY teacher_id REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_dni FOREIGN KEY teacher_dni REFERENCES persona(dni) ON DELETE CASCADE
+
+    FOREIGN KEY (dni) REFERENCES members(dni) ON DELETE CASCADE,
+    CONSTRAINT check_teachers_email CHECK(email LIKE '%@%.%')  --chequea mail válido
 );
