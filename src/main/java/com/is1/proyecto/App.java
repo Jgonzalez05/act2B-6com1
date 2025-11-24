@@ -58,7 +58,7 @@ public class App {
                 // Abre una conexión a la base de datos utilizando las credenciales del
                 // singleton.
                 Base.open(dbConfig.getDriver(), dbConfig.getDbUrl(), dbConfig.getUser(), dbConfig.getPass());
-                Base.exec("PRAGMA foreign_keys = ON;"); // Enable foreign key enforcement for this connection
+                Base.exec("PRAGMA foreign_keys = ON;"); // para activar la foreign key
                 System.out.println(req.url());
 
             } catch (Exception e) {

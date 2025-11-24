@@ -1,7 +1,3 @@
--- DROP TABLE IF EXISTS member;
--- DROP TABLE IF EXISTS persona;
--- DROP TABLE IF EXISTS teacher;
-
 -- Elimina la tabla 'users' si ya existe para asegurar un inicio limpio
 DROP TABLE IF EXISTS users;
 
