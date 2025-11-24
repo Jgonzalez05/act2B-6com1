@@ -5,7 +5,7 @@ import org.javalite.activejdbc.annotations.IdName;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table("teachers")
-@IdName("dni")
+@IdName("id")
 public class Teacher extends Model {
     public String getEmail() {
         return getString("email"); 
@@ -24,11 +24,11 @@ public class Teacher extends Model {
     }
 
     public Integer getDni() {
-        return getInteger("degree"); 
+        return getInteger("id"); 
     }
 
-    public void setDni(Integer degree) {
-        set("degree", degree); 
+    public void setDni(Integer dni) {
+        set("id", dni); 
     }
 
 }

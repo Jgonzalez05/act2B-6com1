@@ -15,7 +15,7 @@ import org.mindrot.jbcrypt.BCrypt; // Utilidad para hashear y verificar contrase
 
 import com.fasterxml.jackson.databind.ObjectMapper; // Representa un modelo de datos y el nombre de la vista a renderizar.
 import com.is1.proyecto.config.DBConfigSingleton; // Motor de plantillas Mustache para Spark.
-import com.is1.proyecto.models.Member;
+import com.is1.proyecto.models.Person;
 import com.is1.proyecto.models.Teacher;
 import com.is1.proyecto.models.User; // Para crear mapas de datos (modelos para las plantillas).
 
@@ -58,6 +58,7 @@ public class App {
                 // Abre una conexión a la base de datos utilizando las credenciales del
                 // singleton.
                 Base.open(dbConfig.getDriver(), dbConfig.getDbUrl(), dbConfig.getUser(), dbConfig.getPass());
+                Base.exec("PRAGMA foreign_keys = ON;"); // Enable foreign key enforcement for this connection
                 System.out.println(req.url());
 
             } catch (Exception e) {
@@ -322,7 +323,7 @@ public class App {
         });
 
         // Api
-        get("/register_teacher", (req, res) -> {
+        get("/teacher/new", (req, res) -> {
             // Intenta obtener el nombre de usuario y la bandera de login de la sesión.
             String currentUsername = req.session().attribute("currentUserUsername");
             Boolean loggedIn = req.session().attribute("loggedIn");
@@ -341,7 +342,7 @@ public class App {
             return new ModelAndView(model, "teacher_form.mustache");
         }, new MustacheTemplateEngine());
 
-        post("/register_teacher", (req, res) -> {
+        post("/teacher/new", (req, res) -> {
             // Intenta obtener el nombre de usuario y la bandera de login de la sesión.
             String currentUsername = req.session().attribute("currentUserUsername");
             Boolean loggedIn = req.session().attribute("loggedIn");
@@ -372,17 +373,17 @@ public class App {
 
             // Guardar en la BD
             try {
-                Member m = new Member();
+                Person m = new Person();
                 m.setDNI(Integer.valueOf(dni));
                 m.setFirstName(nombre);
                 m.setLastName(apellido);
-                m.saveIt();
+                m.insert();
 
                 Teacher t = new Teacher();
                 t.setEmail(mail);
                 t.setDegree(titulo);
                 t.setDni(Integer.valueOf(dni));
-                t.saveIt();
+                t.insert();
             } catch (Exception e) {
                 e.printStackTrace();
                 res.status(500);
@@ -416,7 +417,7 @@ public class App {
 
             LazyList<Teacher> teachers = Teacher.findAll();
             for (Teacher teacher : teachers) {
-                Member person = Member.findById(teacher.getId());
+                Person person = Person.findById(teacher.getId());
                 Map<String, Object> t = new HashMap<>();
                 t.put("dni", person.getDNI());
                 t.put("nombre", person.getFirstName());

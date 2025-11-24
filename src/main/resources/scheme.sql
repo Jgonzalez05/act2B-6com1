@@ -2,9 +2,6 @@
 -- DROP TABLE IF EXISTS persona;
 -- DROP TABLE IF EXISTS teacher;
 
--- Enable foreign key enforcement for this connection
-PRAGMA foreign_keys = ON;
-
 -- Elimina la tabla 'users' si ya existe para asegurar un inicio limpio
 DROP TABLE IF EXISTS users;
 
@@ -15,22 +12,22 @@ CREATE TABLE users (
     password TEXT NOT NULL           -- Contraseña hasheada (TEXT es el tipo de cadena recomendado para SQLite)
 );
 
-DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS personas;
 
-CREATE TABLE members (
-    dni INTEGER PRIMARY KEY,
+CREATE TABLE personas (
+    id INTEGER PRIMARY KEY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    CONSTRAINT check_members_dni CHECK(dni < 1000000000 AND dni >= 0)
+    CONSTRAINT check_members_id CHECK(id < 1000000000 AND id >= 0)
 );
 
 DROP TABLE IF EXISTS teachers;
 
 CREATE TABLE teachers (
-    dni INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     degree TEXT NOT NULL,            -- Titulo universitario del profesor 
     email TEXT NOT NULL UNIQUE,      -- Correo electrónico del profesor 
 
-    FOREIGN KEY (dni) REFERENCES members(dni) ON DELETE CASCADE,
+    FOREIGN KEY (id) REFERENCES personas(id) ON DELETE CASCADE,
     CONSTRAINT check_teachers_email CHECK(email LIKE '%@%.%')  --chequea mail válido
 );

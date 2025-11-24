@@ -4,15 +4,15 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.IdName;
 import org.javalite.activejdbc.annotations.Table;
 
-@Table("members")
-@IdName("dni")
-public class Member extends Model {
+@Table("personas")
+@IdName("id")
+public class Person extends Model {
     public Integer getDNI(){
-        return getInteger("dni");
+        return getInteger("id");
     }
 
     public void setDNI(Integer dni){
-        set("dni",dni);
+        set("id",dni);
     }
 
     public String getFirstName() {
